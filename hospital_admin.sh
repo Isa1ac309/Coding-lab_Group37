@@ -30,3 +30,4 @@ initialize_system() {
 
 initialize_system
 # Checks if directories exist before creating them
+# Prints status update for each directory created
