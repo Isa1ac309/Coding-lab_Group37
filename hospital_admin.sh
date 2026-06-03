@@ -29,3 +29,4 @@ initialize_system() {
 }
 
 initialize_system
+# Checks if directories exist before creating them
