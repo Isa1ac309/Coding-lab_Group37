@@ -1,25 +1,24 @@
 #!/bin/bash
+# Script 3: hospital_archive.sh
+# Save 3: Finalized script with system continuity rules
 
-# hospital_archive.sh
-# Rotates hospital log files: timestamps them, moves to archive, recreates empty files
+rotate_logs() {
+    local timestamp=$(date +"%Y%m%d_%H%M")
+    mkdir -p archived_logs
 
-ACTIVE="active_logs"
-ARCHIVE="archived_logs"
+    for file in active_logs/*.log; do
+        if [ -f "$file" ]; then
+            local filename=$(basename "$file")
+            local basement="${filename%.log}"
+            mv "$file" "archived_logs/${basement}_${timestamp}.log"
 
-mkdir -p "$ARCHIVE"
+            # SYSTEM CONTINUITY: Recreate empty file so data engine doesn't crash
+            touch "$file"
+            chmod 700 "$file"
+        fi
+    done
+    echo "Log rotation completed."
+}
 
-TIMESTAMP=$(date +"%Y%m%d_%H%M")
-
-for FILE in "$ACTIVE"/*.log; do
-    BASENAME=$(basename "$FILE")
-    NAME="${BASENAME%.log}"
-    NEW_NAME="${NAME}_${TIMESTAMP}.log"
-
-    mv "$FILE" "$ARCHIVE/$NEW_NAME"
-    echo "Archived: $FILE → $ARCHIVE/$NEW_NAME"
-
-    touch "$FILE"
-    echo "Recreated empty: $FILE"
-done
-
-echo "All logs rotated successfully."
+# Execute the engine rotation
+rotate_logs
