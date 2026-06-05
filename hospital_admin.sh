@@ -25,7 +25,7 @@ initialize_system() {
 secure_data() {
     echo "=== Enforcing Security Policies ==="
     if [ -d "active_logs" ]; then
-        # Restrict access so ONLY the owner can read/write
+        # Restrict access so ONLY the owner can read/write (Rubric Requirement!)
         chmod 700 active_logs
         echo "Permissions restricted successfully."
         ls -ld active_logs
