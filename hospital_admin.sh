@@ -1,40 +1,32 @@
 #!/bin/bash
 
-# ==============================================================================
-# Script 1: hospital_admin.sh (Permissions & Setup)
-# Tailored for 3-Member Team (Member 1, Member 2, and Member 3)
-# ==============================================================================
+# Script 1: Permissions & Setup
+# Handled by Member 1 & Member 2
 
-# Member 1: System Initialization
 initialize_system() {
-    echo "=== Initializing KNH System Environment ==="
+    echo "Initializing KNH System Environment..."
     
     local folders=("active_logs" "archived_logs" "reports")
     for dir in "${folders[@]}"; do
         if [ ! -d "$dir" ]; then
             mkdir -p "$dir"
-            echo "Creating $dir directory..."
+            echo "Created $dir directory"
         else
             echo "$dir already exists. Skipping."
         fi
     done
-    echo "Directory initialization complete."
 }
 
-# Member 2: Data Protection & Security Lockdown
 secure_data() {
-    echo "=== Enforcing Security Policies ==="
+    echo "Enforcing Security Policies..."
     if [ -d "active_logs" ]; then
-        # Restrict access so ONLY the owner can read/write (Rubric Requirement!)
         chmod 700 active_logs
-        echo "Permissions restricted successfully."
         ls -ld active_logs
     else
-        echo "Error: active_logs folder not found."
+        echo "Error: active_logs folder not found"
     fi
 }
 
-# Member 3: Core Execution Logic
 main() {
     initialize_system
     echo ""
@@ -43,5 +35,4 @@ main() {
     echo "System Environment Secured - $(date)"
 }
 
-# Run the script
 main
