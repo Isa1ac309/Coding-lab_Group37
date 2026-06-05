@@ -1,6 +1,4 @@
 active_logs/
 archived_logs/
 reports/
-*.swp
-*.swo
 /tmp/hospital_system.pid
