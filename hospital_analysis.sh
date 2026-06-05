@@ -1,18 +1,13 @@
 #!/bin/bash
 
-# ==============================================================================
-# Script 2: hospital_analysis.sh (Reporting & Analytics)
-# Covered by Team Members to fulfill Clinical & Facility Analytics
-# ==============================================================================
+# Script 2: Reporting & Analytics
+# Handled by Member 2 & Member 3
 
 process_vitals() {
     echo "Processing critical patient vitals..."
     mkdir -p reports
-    
-    # Create the file with proper column headers
     echo "Timestamp,Device_ID,Value" > reports/critical_alerts.txt
     
-    # Use wildcards (*) to catch all dynamically generated files safely
     for log in active_logs/heart_rate*.log active_logs/temperature*.log; do
         if [ -f "$log" ]; then
             grep "CRITICAL" "$log" | awk -F',' '{print $1 "," $2 "," $3}' >> reports/critical_alerts.txt
@@ -24,7 +19,6 @@ process_vitals() {
 water_audit() {
     echo "Analyzing ICU water usage..."
     
-    # Safely verify if files exist before processing
     if ls active_logs/water_usage*.log >/dev/null 2>&1; then
         awk -F',' '
         BEGIN { sum = 0; count = 0; }
@@ -34,9 +28,7 @@ water_audit() {
         }
         END {
             if (count > 0) {
-                printf "==========================================\n"
                 printf "Average ICU Water Usage: %.2f Liters\n", (sum / count)
-                printf "==========================================\n"
             } else {
                 printf "No ICU_WATER_RESERVE records discovered.\n"
             }
@@ -47,7 +39,8 @@ water_audit() {
     fi
 }
 
-# Run the functions
+echo "=== KNH CLINICAL DASHBOARD ==="
 process_vitals
 echo ""
 water_audit
+echo "=============================="
